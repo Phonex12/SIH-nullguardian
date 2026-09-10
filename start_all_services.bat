@@ -1,29 +1,17 @@
 @echo off
-title NCRP Sentinel - Dual Service Manager
-color 0e
-
+title NCRP Sentinel - Dual System Launcher
+cls
 echo =====================================================================
-echo    NCRP SENTINEL // DUAL AIR-GAPPED ISOLATED SERVICES
+echo               NCRP SENTINEL -- DUAL PLATFORM LAUNCHER
 echo =====================================================================
-echo.
-echo Launching both isolated services concurrently:
-echo  1. Public Citizen Portal (Port 8000)
-echo  2. LEA Tactical Command Terminal (Port 9000)
+echo Launching Citizen Portal (Port 8000) and LEA Admin (Port 9000)...
 echo.
 
-where python >nul 2>&1
-if %errorlevel% equ 0 (
-    set PY_CMD=python
-) else (
-    if exist "C:\Program Files\Python313\python.exe" (
-        set PY_CMD="C:\Program Files\Python313\python.exe"
-    ) else (
-        set PY_CMD=py
-    )
-)
+start "NCRP Sentinel - Citizen Portal (Port 8000)" cmd /k "cd /d %~dp0 && python -m citizen_app.server"
+timeout /t 2 /nobreak >nul
+start "NCRP Sentinel - LEA Admin Command (Port 9000)" cmd /k "cd /d %~dp0 && python -m admin_app.server"
 
-start "" cmd /c "timeout /t 3 /nobreak >nul && start http://127.0.0.1:8000/ && start http://127.0.0.1:9000/"
-
-%PY_CMD% ncrp_sentinel\backend\run_all.py
-
-pause
+echo Both services launched in independent processes.
+echo - Citizen Portal: http://localhost:8000
+echo - LEA Admin Panel: http://localhost:9000
+echo.
