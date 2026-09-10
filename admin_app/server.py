@@ -92,6 +92,12 @@ async def serve_admin_dashboard():
     index_file = STATIC_DIR / "index.html"
     return FileResponse(str(index_file))
 
+@app.get("/dossier", response_class=HTMLResponse)
+@app.get("/dossier/{case_id}", response_class=HTMLResponse)
+async def serve_dossier_page(case_id: Optional[str] = None):
+    dossier_file = STATIC_DIR / "dossier.html"
+    return FileResponse(str(dossier_file))
+
 @app.get("/api/admin/info")
 async def get_system_info():
     return {

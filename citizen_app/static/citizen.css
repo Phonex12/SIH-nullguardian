@@ -549,10 +549,30 @@ body {
   padding: 10px 14px;
   border-radius: var(--radius-md);
 }
-.detail-block.remedy strong i { color: #16a34a; }
 .detail-block.remedy p {
   font-size: 0.82rem;
   color: #166534;
+}
+
+.article-link-box {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.article-btn-link {
+  display: inline-block;
+  color: var(--gov-blue);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.article-btn-link:hover {
+  color: var(--gov-navy);
+  text-decoration: underline;
+  transform: translateX(2px);
 }
 
 /* Callout Banner */

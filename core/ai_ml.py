@@ -160,9 +160,9 @@ class ATMPredictor:
                 "longitude": actual_lon,
                 "distance_km": km_dist,
                 "confidence_pct": confidence,
-                "operating_24x7": bool(atm_row["operating_24x7"]),
-                "baseline_volume": int(atm_row["baseline_daily_txn_volume"]),
-                "risk_zone": int(atm_row["synthetic_risk_zone"]),
+                "operating_24x7": bool(atm_row.get("operating_24x7", True)),
+                "baseline_volume": int(atm_row.get("baseline_daily_txn_volume", atm_row.get("baseline_volume", 250))),
+                "risk_zone": int(atm_row.get("synthetic_risk_zone", atm_row.get("risk_zone", 75))),
                 "estimated_cashout_window": f"{window_min}-{window_max} mins"
             })
 

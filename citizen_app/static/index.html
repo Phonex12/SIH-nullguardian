@@ -10,9 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
   <link rel="stylesheet" href="/static/citizen.css">
 </head>
 <body>
@@ -29,7 +26,7 @@
       </div>
       <div class="gov-helpline">
         <span class="helpline-label">24x7 National Cyber Helpline:</span>
-        <a href="tel:1930" class="helpline-number"><i data-lucide="phone-call"></i> 1930</a>
+        <a href="tel:1930" class="helpline-number">1930</a>
       </div>
     </div>
   </div>
@@ -38,9 +35,6 @@
   <header class="main-header">
     <div class="header-container">
       <div class="portal-brand">
-        <div class="brand-shield">
-          <i data-lucide="shield-alert"></i>
-        </div>
         <div class="brand-titles">
           <span class="main-title">NCRP Sentinel</span>
           <span class="sub-title">National Cybercrime Reporting & Proactive Mitigation Portal</span>
@@ -48,12 +42,11 @@
       </div>
 
       <nav class="portal-nav">
-        <a href="#home" class="nav-link active"><i data-lucide="home"></i> Home</a>
-        <a href="#explore-traps" class="nav-link"><i data-lucide="compass"></i> Explore Cyber Frauds</a>
-        <a href="#track-section" class="nav-link"><i data-lucide="radar"></i> Track Status</a>
-        <a href="#advisories-section" class="nav-link"><i data-lucide="book-open"></i> Safety Tips</a>
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#explore-traps" class="nav-link">Explore Cyber Frauds</a>
+        <a href="#track-section" class="nav-link">Track Status</a>
+        <a href="#advisories-section" class="nav-link">Safety Guidelines</a>
         <button id="open-complaint-btn-nav" class="nav-cta-btn">
-          <i data-lucide="file-plus-2"></i>
           <span>File Cyber Complaint</span>
         </button>
       </nav>
@@ -75,7 +68,6 @@
     <div class="hero-container">
       <div class="hero-content">
         <div class="hero-badge">
-          <i data-lucide="shield-check"></i>
           <span>I4C Real-Time Proactive Interception Network</span>
         </div>
         <h1 class="hero-heading">
@@ -86,11 +78,9 @@
         </p>
         <div class="hero-actions">
           <button id="hero-file-complaint-btn" class="btn-primary-large">
-            <i data-lucide="file-text"></i>
             <span>File a Cyber Fraud Complaint</span>
           </button>
           <a href="#track-section" class="btn-secondary-large">
-            <i data-lucide="search"></i>
             <span>Track Existing Complaint</span>
           </a>
         </div>
@@ -98,7 +88,6 @@
 
       <div class="hero-stats-card">
         <div class="stats-header">
-          <i data-lucide="activity"></i>
           <h3>National Mitigation Metrics</h3>
         </div>
         <div class="stats-grid">
@@ -126,7 +115,6 @@
   <!-- SECTION 1: How People Fall Into Cyber Traps (Interactive Modality Explorer) -->
   <section id="explore-traps" class="section-container">
     <div class="section-title-box">
-      <span class="section-tag">PUBLIC AWARENESS</span>
       <h2>Common Cyber Frauds: How Scammers Trap Victims</h2>
       <p class="section-subtitle">
         Understand the exact modus operandi, warning signs, and real case patterns before scammers target your hard-earned money.
@@ -138,11 +126,7 @@
       <!-- Card 1: Digital Arrest -->
       <div class="scam-card">
         <div class="scam-card-header">
-          <div class="scam-badge critical">HIGH THREAT</div>
-          <span class="scam-time"><i data-lucide="clock"></i> 4 min read</span>
-        </div>
-        <div class="scam-icon-box blue">
-          <i data-lucide="video"></i>
+          <span class="scam-time">4 min read</span>
         </div>
         <h3 class="scam-title">Digital Arrest & Fake Police Video Calls</h3>
         <p class="scam-summary">
@@ -150,7 +134,7 @@
         </p>
         <div class="scam-details">
           <div class="detail-block">
-            <strong><i data-lucide="alert-circle"></i> Key Red Flags:</strong>
+            <strong>Key Red Flags:</strong>
             <ul>
               <li>Demands to stay locked in a room on continuous video call</li>
               <li>Threats of immediate arrest without physical summons</li>
@@ -158,20 +142,21 @@
             </ul>
           </div>
           <div class="detail-block remedy">
-            <strong><i data-lucide="check-circle-2"></i> Official Clarification:</strong>
+            <strong>Official Clarification:</strong>
             <p>Law Enforcement Agencies and Judicial Courts <strong>NEVER</strong> conduct arrests or demand money via video calls.</p>
           </div>
+        </div>
+        <div class="article-link-box">
+          <a href="/article?slug=digital-arrest" target="_blank" class="article-btn-link">
+            Read Full Analysis & Case Modality &rarr;
+          </a>
         </div>
       </div>
 
       <!-- Card 2: Electricity Bill APK -->
       <div class="scam-card">
         <div class="scam-card-header">
-          <div class="scam-badge warning">FREQUENT</div>
-          <span class="scam-time"><i data-lucide="clock"></i> 3 min read</span>
-        </div>
-        <div class="scam-icon-box amber">
-          <i data-lucide="zap"></i>
+          <span class="scam-time">3 min read</span>
         </div>
         <h3 class="scam-title">Electricity Bill Update Phishing APKs</h3>
         <p class="scam-summary">
@@ -179,28 +164,29 @@
         </p>
         <div class="scam-details">
           <div class="detail-block">
-            <strong><i data-lucide="alert-circle"></i> Key Red Flags:</strong>
+            <strong>Key Red Flags:</strong>
             <ul>
-              <li>SMS from personal 10-digit mobile numbers instead of official sender IDs (e.g. MSEB, BSES)</li>
+              <li>SMS from personal 10-digit mobile numbers instead of official sender IDs</li>
               <li>Instructions to install third-party APK files from WhatsApp links</li>
               <li>Asking for ₹10 recharge to "update meter software"</li>
             </ul>
           </div>
           <div class="detail-block remedy">
-            <strong><i data-lucide="check-circle-2"></i> Official Clarification:</strong>
+            <strong>Official Clarification:</strong>
             <p>Electricity boards never send disconnection notices via personal WhatsApp or ask for third-party APK installations.</p>
           </div>
+        </div>
+        <div class="article-link-box">
+          <a href="/article?slug=electricity-bill-apk" target="_blank" class="article-btn-link">
+            Read Full Analysis & Case Modality &rarr;
+          </a>
         </div>
       </div>
 
       <!-- Card 3: Telegram Task Fraud -->
       <div class="scam-card">
         <div class="scam-card-header">
-          <div class="scam-badge danger">ORGANIZED</div>
-          <span class="scam-time"><i data-lucide="clock"></i> 3 min read</span>
-        </div>
-        <div class="scam-icon-box purple">
-          <i data-lucide="trending-up"></i>
+          <span class="scam-time">3 min read</span>
         </div>
         <h3 class="scam-title">Part-Time Telegram Job & Crypto Tasks</h3>
         <p class="scam-summary">
@@ -208,28 +194,29 @@
         </p>
         <div class="scam-details">
           <div class="detail-block">
-            <strong><i data-lucide="alert-circle"></i> Key Red Flags:</strong>
+            <strong>Key Red Flags:</strong>
             <ul>
-              <li>Unsolicited job offers on WhatsApp from foreign country codes (+62, +84, +234)</li>
+              <li>Unsolicited job offers on WhatsApp from international country codes</li>
               <li>Being added to Telegram investment groups showing fake profit screenshots</li>
               <li>Demands for deposits to "unlock accumulated commission"</li>
             </ul>
           </div>
           <div class="detail-block remedy">
-            <strong><i data-lucide="check-circle-2"></i> Official Clarification:</strong>
+            <strong>Official Clarification:</strong>
             <p>No legitimate company hires via Telegram or demands money from candidates to complete daily tasks.</p>
           </div>
+        </div>
+        <div class="article-link-box">
+          <a href="/article?slug=telegram-task-fraud" target="_blank" class="article-btn-link">
+            Read Full Analysis & Case Modality &rarr;
+          </a>
         </div>
       </div>
 
       <!-- Card 4: Screen Sharing (AnyDesk / TeamViewer) -->
       <div class="scam-card">
         <div class="scam-card-header">
-          <div class="scam-badge warning">VULNERABILITY</div>
-          <span class="scam-time"><i data-lucide="clock"></i> 2 min read</span>
-        </div>
-        <div class="scam-icon-box rose">
-          <i data-lucide="monitor"></i>
+          <span class="scam-time">2 min read</span>
         </div>
         <h3 class="scam-title">Fake Customer Care & Remote Screen Sharing</h3>
         <p class="scam-summary">
@@ -237,7 +224,7 @@
         </p>
         <div class="scam-details">
           <div class="detail-block">
-            <strong><i data-lucide="alert-circle"></i> Key Red Flags:</strong>
+            <strong>Key Red Flags:</strong>
             <ul>
               <li>Caller asking you to download screen sharing apps (AnyDesk, QuickSupport)</li>
               <li>Asking you to enter your UPI PIN to "receive a refund"</li>
@@ -245,9 +232,14 @@
             </ul>
           </div>
           <div class="detail-block remedy">
-            <strong><i data-lucide="check-circle-2"></i> Official Clarification:</strong>
+            <strong>Official Clarification:</strong>
             <p>Entering UPI PIN is <strong>ONLY</strong> required to deduct money from your account, never to receive refunds.</p>
           </div>
+        </div>
+        <div class="article-link-box">
+          <a href="/article?slug=screen-sharing-fraud" target="_blank" class="article-btn-link">
+            Read Full Analysis & Case Modality &rarr;
+          </a>
         </div>
       </div>
 
@@ -260,7 +252,6 @@
         <p>Do not panic. File your complaint immediately so our automated AI grid can initiate mule account debit freezes.</p>
       </div>
       <button id="banner-complaint-btn" class="btn-primary-large">
-        <i data-lucide="file-plus-2"></i>
         <span>Register Complaint Now</span>
       </button>
     </div>
@@ -269,7 +260,6 @@
   <!-- SECTION 2: Track Existing Complaint Status -->
   <section id="track-section" class="section-container light-bg">
     <div class="section-title-box">
-      <span class="section-tag">INVESTIGATION STATUS</span>
       <h2>Track Your Cybercrime Complaint</h2>
       <p class="section-subtitle">
         Enter your official 14-digit NCRP Acknowledgment Number to view real-time bank freeze actions and police patrol alerts.
@@ -279,11 +269,9 @@
     <div class="tracker-card">
       <div class="tracker-input-row">
         <div class="input-with-icon">
-          <i data-lucide="search"></i>
           <input type="text" id="track-ack-number" placeholder="Enter Acknowledgment Number (e.g. NCRP-2026-094101)">
         </div>
         <button id="track-submit-btn" class="btn-primary">
-          <i data-lucide="radar"></i>
           <span>Check Status</span>
         </button>
       </div>
@@ -317,7 +305,7 @@
           </div>
         </div>
 
-        <h4 class="timeline-heading"><i data-lucide="git-commit"></i> Official Forensic Action Trail</h4>
+        <h4 class="timeline-heading">Official Forensic Action Trail</h4>
         <div class="gov-timeline" id="res-timeline">
           <!-- Populated dynamically -->
         </div>
@@ -328,7 +316,6 @@
   <!-- SECTION 3: Cyber Safety Dos & Don'ts -->
   <section id="advisories-section" class="section-container">
     <div class="section-title-box">
-      <span class="section-tag">OFFICIAL GUIDELINES</span>
       <h2>Cyber Hygiene: Essential Dos and Don'ts</h2>
       <p class="section-subtitle">Follow these guidelines recommended by the Ministry of Home Affairs to protect your digital identity.</p>
     </div>
@@ -336,7 +323,6 @@
     <div class="guidelines-grid">
       <div class="guideline-card dos">
         <div class="guideline-header">
-          <i data-lucide="check-circle" class="icon-green"></i>
           <h3>DOs: Best Cyber Practices</h3>
         </div>
         <ul>
@@ -349,7 +335,6 @@
 
       <div class="guideline-card donts">
         <div class="guideline-header">
-          <i data-lucide="x-circle" class="icon-red"></i>
           <h3>DON'Ts: High Risk Actions</h3>
         </div>
         <ul>
@@ -367,7 +352,6 @@
     <div class="footer-container">
       <div class="footer-col">
         <div class="footer-brand">
-          <i data-lucide="shield-alert"></i>
           <span>NCRP Sentinel</span>
         </div>
         <p class="footer-text">
@@ -407,7 +391,7 @@
             <p>NCRP Form Section 43 — Financial Cyber Fraud Registration</p>
           </div>
         </div>
-        <button id="close-modal-btn" class="close-btn" title="Close"><i data-lucide="x"></i></button>
+        <button id="close-modal-btn" class="close-btn" title="Close">✕</button>
       </div>
 
       <!-- Stepper Progress Bar -->
@@ -446,7 +430,6 @@
           <div class="form-group">
             <label>12-Digit Aadhaar Number <span class="req">*</span></label>
             <div class="gov-input-box">
-              <i data-lucide="fingerprint"></i>
               <input type="text" id="modal-aadhaar-input" placeholder="e.g. 9999 9999 9999" maxlength="14" value="9999 9999 9999">
             </div>
             <span class="field-hint">For prototype testing, use demo Aadhaar <b>9999 9999 9999</b> (Demo OTP: <b>123456</b>)</span>
@@ -467,11 +450,9 @@
 
           <div class="modal-footer-btns">
             <button id="modal-send-otp-btn" class="btn-primary">
-              <i data-lucide="send"></i>
               <span>Send Aadhaar OTP</span>
             </button>
             <button id="modal-verify-otp-btn" class="btn-primary hidden">
-              <i data-lucide="check-circle-2"></i>
               <span>Verify OTP & Proceed</span>
             </button>
           </div>
@@ -488,7 +469,6 @@
             <div class="form-group">
               <label>Full Name (as per Aadhaar) <span class="req">*</span></label>
               <div class="gov-input-box">
-                <i data-lucide="user"></i>
                 <input type="text" id="modal-victim-name" value="Rajesh Sharma" placeholder="Rajesh Sharma">
               </div>
             </div>
@@ -496,7 +476,6 @@
             <div class="form-group">
               <label>Mobile Number <span class="req">*</span></label>
               <div class="gov-input-box">
-                <i data-lucide="phone"></i>
                 <input type="text" id="modal-victim-phone" value="+91 98201 44819" placeholder="+91 98201 44819">
               </div>
             </div>
@@ -504,7 +483,6 @@
             <div class="form-group">
               <label>Defrauded Bank Account / UPI ID <span class="req">*</span></label>
               <div class="gov-input-box">
-                <i data-lucide="credit-card"></i>
                 <input type="text" id="modal-victim-account" value="SBIN0004921-998231" placeholder="e.g. SBIN0004921-998231">
               </div>
             </div>
@@ -512,7 +490,6 @@
             <div class="form-group">
               <label>City <span class="req">*</span></label>
               <div class="gov-input-box">
-                <i data-lucide="map-pin"></i>
                 <input type="text" id="modal-victim-city" value="Mumbai" placeholder="e.g. Mumbai">
               </div>
             </div>
@@ -520,7 +497,6 @@
             <div class="form-group">
               <label>State / UT <span class="req">*</span></label>
               <div class="gov-input-box">
-                <i data-lucide="map"></i>
                 <input type="text" id="modal-victim-state" value="Maharashtra" placeholder="e.g. Maharashtra">
               </div>
             </div>
@@ -528,12 +504,10 @@
 
           <div class="modal-footer-btns">
             <button id="modal-step2-back" class="btn-secondary">
-              <i data-lucide="arrow-left"></i>
               <span>Back</span>
             </button>
             <button id="modal-step2-next" class="btn-primary">
-              <span>Continue to Crime Details</span>
-              <i data-lucide="arrow-right"></i>
+              <span>Continue to Crime Details &rarr;</span>
             </button>
           </div>
         </div>
@@ -569,7 +543,6 @@
             <div class="form-group">
               <label>Scammer Phone / UPI / Account (If Known)</label>
               <div class="gov-input-box">
-                <i data-lucide="shield-x"></i>
                 <input type="text" id="modal-scammer-account" value="quickbill.support@sbi" placeholder="e.g. quickbill.support@sbi">
               </div>
             </div>
@@ -581,20 +554,17 @@
           </div>
 
           <div class="ai-notice-box">
-            <i data-lucide="cpu"></i>
             <div>
               <strong>Instant AI Trajectory Calculation:</strong>
-              <span>Upon submission, your complaint will be automatically fed into the PyTorch LSTM neural network to predict ATM cashout coordinates and alert the LEA Command Center in real-time.</span>
+              <span>Upon submission, your complaint will be automatically processed by the PyTorch LSTM neural network to predict ATM cashout coordinates and alert the LEA Command Center in real-time.</span>
             </div>
           </div>
 
           <div class="modal-footer-btns">
             <button id="modal-step3-back" class="btn-secondary">
-              <i data-lucide="arrow-left"></i>
               <span>Back</span>
             </button>
             <button id="modal-submit-complaint-btn" class="btn-primary highlight-btn">
-              <i data-lucide="send"></i>
               <span>Submit & Transmit Complaint</span>
             </button>
           </div>
@@ -611,7 +581,7 @@
           <div class="official-ack-box">
             <div class="ack-row-top">
               <span>Official NCRP Acknowledgment Number</span>
-              <button id="modal-copy-ack-btn" class="copy-link-btn"><i data-lucide="copy"></i> Copy</button>
+              <button id="modal-copy-ack-btn" class="copy-link-btn">Copy</button>
             </div>
             <div class="ack-id-large" id="modal-ack-id-display">NCRP-2026-XXXXXX</div>
           </div>
@@ -637,7 +607,6 @@
 
           <div class="modal-footer-btns center">
             <button id="modal-track-now-btn" class="btn-primary">
-              <i data-lucide="radar"></i>
               <span>Track Live Case Progress</span>
             </button>
             <button id="modal-done-btn" class="btn-secondary">

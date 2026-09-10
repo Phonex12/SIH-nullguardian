@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Threat Advisory & Modus Operandi Analysis — NCRP Sentinel</title>
+  
+  <!-- Modern Official Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/citizen.css">
+  <style>
+    /* Dedicated Deep-Read Article Page Layout */
+    .article-page-body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .article-container {
+      max-width: 1080px;
+      margin: 32px auto 64px auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .breadcrumb-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 24px;
+    }
+
+    .breadcrumb-bar a {
+      color: #003366;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+
+    .article-main-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 48px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .article-header {
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 28px;
+      margin-bottom: 36px;
+    }
+
+    .article-kicker {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #003366;
+      margin-bottom: 12px;
+    }
+
+    .article-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #0f172a;
+      margin-bottom: 18px;
+    }
+
+    .article-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .meta-item strong {
+      color: #334155;
+    }
+
+    .article-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .article-sidebar {
+        display: none;
+      }
+      .article-main-card {
+        padding: 24px;
+      }
+      .article-title {
+        font-size: 1.65rem;
+      }
+    }
+
+    /* Table of contents sticky sidebar */
+    .article-sidebar {
+      position: sticky;
+      top: 24px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #003366;
+      margin-bottom: 14px;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toc-list a {
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      display: block;
+      transition: color 0.15s ease;
+    }
+
+    .toc-list a:hover {
+      color: #003366;
+      font-weight: 600;
+    }
+
+    /* Content Typography & Sections */
+    .article-content {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #334155;
+    }
+
+    .article-section {
+      margin-bottom: 40px;
+    }
+
+    .article-section h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .article-section h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 20px 0 10px 0;
+    }
+
+    .article-section p {
+      margin-bottom: 16px;
+    }
+
+    .content-box {
+      background: #f1f5f9;
+      border-left: 4px solid #003366;
+      padding: 20px 24px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+
+    .content-box.alert-danger {
+      background: #fef2f2;
+      border-left-color: #dc2626;
+    }
+
+    .content-box.alert-success {
+      background: #f0fdf4;
+      border-left-color: #16a34a;
+    }
+
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 16px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .step-number {
+      font-weight: 800;
+      color: #003366;
+      font-size: 1.2rem;
+      min-width: 32px;
+    }
+
+    .legal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+
+    .legal-table th, .legal-table td {
+      border: 1px solid #cbd5e1;
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .legal-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .action-cta-box {
+      background: #002244;
+      color: #ffffff;
+      padding: 36px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .action-cta-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .action-cta-box p {
+      color: #cbd5e1;
+      max-width: 600px;
+      margin: 0 auto 24px auto;
+      font-size: 0.95rem;
+    }
+
+    .btn-white {
+      background: #ffffff;
+      color: #002244;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1rem;
+      transition: background 0.15s ease;
+    }
+
+    .btn-white:hover {
+      background: #f1f5f9;
+    }
+  </style>
+</head>
+<body class="article-page-body">
+
+  <!-- Top Official Government Ribbon -->
+  <div class="gov-top-bar">
+    <div class="gov-container">
+      <div class="gov-identity">
+        <span class="emblem-text">🇮🇳 Government of India</span>
+        <span class="divider">|</span>
+        <span>Ministry of Home Affairs</span>
+        <span class="divider">|</span>
+        <span class="highlight">Indian Cyber Crime Coordination Centre (I4C)</span>
+      </div>
+      <div class="gov-helpline">
+        <span class="helpline-label">National Cyber Helpline:</span>
+        <a href="tel:1930" class="helpline-number">1930</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="portal-brand">
+        <div class="brand-titles">
+          <span class="main-title">NCRP Sentinel</span>
+          <span class="sub-title">National Cybercrime Advisory & Forensic Knowledge Base</span>
+        </div>
+      </div>
+      <nav class="portal-nav">
+        <a href="/" class="nav-link">Back to Main Portal</a>
+        <a href="/#explore-traps" class="nav-link">All Advisories</a>
+        <a href="/" class="nav-cta-btn">File Cyber Complaint</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Article Container -->
+  <main class="article-container">
+    
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb-bar">
+      <a href="/">Home</a>
+      <span>/</span>
+      <a href="/#explore-traps">Cybercrime Modus Operandi</a>
+      <span>/</span>
+      <span id="breadcrumb-current-title">Threat Modality Analysis</span>
+    </div>
+
+    <article class="article-main-card">
+      
+      <!-- Article Header -->
+      <header class="article-header">
+        <div class="article-kicker">I4C Forensic Advisory & Citizen Defense Guide</div>
+        <h1 class="article-title" id="article-title-heading">Digital Arrest & Extortion via Coercive Video Calls: Modus Operandi Analysis</h1>
+        <div class="article-meta-row">
+          <div class="meta-item">Issued by: <strong>Cyber Crime Coordination Centre (I4C)</strong></div>
+          <div class="meta-item">Published: <strong>September 2026</strong></div>
+          <div class="meta-item">Target Demographic: <strong>Senior Citizens, Working Professionals</strong></div>
+          <div class="meta-item">Classification: <strong>High Severity Financial Extortion</strong></div>
+        </div>
+      </header>
+
+      <!-- Layout Grid -->
+      <div class="article-layout">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="article-sidebar">
+          <div class="sidebar-title">Sections</div>
+          <ul class="toc-list">
+            <li><a href="#section-overview">1. Modus Operandi Overview</a></li>
+            <li><a href="#section-execution-flow">2. Attack Architecture & Steps</a></li>
+            <li><a href="#section-case-study">3. Typical Incident Narrative</a></li>
+            <li><a href="#section-red-flags">4. Behavioral Red Flags</a></li>
+            <li><a href="#section-sop">5. Immediate SOP for Victims</a></li>
+            <li><a href="#section-legal">6. Legal & Penal Framework</a></li>
+            <li><a href="#section-evidence">7. Evidence Preservation</a></li>
+          </ul>
+        </aside>
+
+        <!-- Main Content (Extensive Text Placeholders) -->
+        <div class="article-content">
+
+          <!-- Section 1: Overview -->
+          <section id="section-overview" class="article-section">
+            <h2>1. Modus Operandi Overview</h2>
+            <p>
+              Digital arrest scams represent an organized psychological extortion tactic where organized cyber syndicates pose as senior law enforcement officials (e.g., Central Bureau of Investigation, Enforcement Directorate, Narcotics Control Bureau, or Mumbai/Delhi Police Crime Branch).
+            </p>
+            <p>
+              The perpetrators establish communication through automated IVR calls claiming that the victim's parcel containing illegal narcotics or forged passports has been intercepted at international customs. Victims are then transferred to video calls featuring counterfeit police backdrops, badges, forged Supreme Court arrest warrants, and official emblems.
+            </p>
+            <div class="content-box">
+              <strong>Core Fact:</strong> No law enforcement agency, judicial magistrate, or customs department has the legal provision to declare a citizen under "digital arrest" or conduct interrogations over Skype/WhatsApp.
+            </div>
+          </section>
+
+          <!-- Section 2: Attack Flow Steps -->
+          <section id="section-execution-flow" class="article-section">
+            <h2>2. Attack Architecture & Step-by-Step Execution</h2>
+            <p>
+              Analysis of multiple reported FIRs reveals a standardized four-phase extortion funnel:
+            </p>
+
+            <div class="flow-steps">
+              <div class="step-item">
+                <div class="step-number">01</div>
+                <div>
+                  <strong>Initial Contact & Shock Initiation:</strong>
+                  <p>The victim receives an automated call claiming a courier shipment or telephone line disconnection due to money laundering charges.</p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-number">02</div>
+                <div>
+                  <strong>Isolation & Video Interrogation:</strong>
+                  <p>The scammer directs the victim to Skype or WhatsApp video, insisting they isolate themselves in a locked room under the threat of national security secrecy.</p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-number">03</div>
+                <div>
+                  <strong>Fabricated Judicial Documents:</strong>
+                  <p>High-resolution forged letters bearing fake signatures of Supreme Court judges and RBI governors are transmitted to instill extreme panic.</p>
+                </div>
+              </div>
+
+              <div class="step-item">
+                <div class="step-number">04</div>
+                <div>
+                  <strong>Financial Depletion to Mule Accounts:</strong>
+                  <p>The victim is coerced to liquidate fixed deposits, mutual funds, or transfer savings to a designated "RBI Verification Escrow Account" which is immediately laundered through layer-1 and layer-2 mule networks.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 3: Incident Narrative -->
+          <section id="section-case-study" class="article-section">
+            <h2>3. Typical Incident Narrative & Case Study</h2>
+            <p>
+              <em>Case Context [Holder for specific case study text]:</em>
+            </p>
+            <div class="content-box alert-danger">
+              <p>
+                <strong>Incident Reference:</strong> A 58-year-old resident received a call from an alleged courier company claiming a parcel destined for Thailand contained contraband. Within 10 minutes, the call was transferred to an individual posing as an IPS officer over Skype. Under psychological duress lasting 14 continuous hours, the victim transferred ₹45,00,000 across four separate beneficiary accounts before realizing the deception.
+              </p>
+            </div>
+            <p>
+              [Text Holder: Add your detailed forensic breakdown or localized state data here.]
+            </p>
+          </section>
+
+          <!-- Section 4: Red Flags -->
+          <section id="section-red-flags" class="article-section">
+            <h2>4. Behavioral & Digital Red Flags</h2>
+            <p>Citizens must remain vigilant against the following decisive indicators:</p>
+            <ul>
+              <li><strong>Demand for Continuous Video Surveillance:</strong> Insisting you keep your camera on while traveling to the bank or staying isolated at home.</li>
+              <li><strong>Imposition of "National Secrecy":</strong> Threatening prosecution under Official Secrets Act if you consult family members or legal counsel.</li>
+              <li><strong>Payment to Private Account Numbers:</strong> Legitimate government fees and deposits are never collected through individual savings or current accounts.</li>
+              <li><strong>Urgent Deadlines:</strong> Artificial time constraints preventing verification through local police stations.</li>
+            </ul>
+          </section>
+
+          <!-- Section 5: SOP for Victims -->
+          <section id="section-sop" class="article-section">
+            <h2>5. Standard Operating Procedure (SOP) for Victims</h2>
+            <div class="content-box alert-success">
+              <h3>Immediate Golden Hour Action Protocol:</h3>
+              <ol>
+                <li><strong>Disconnect Communication:</strong> Immediately terminate the video call. Block the contact number.</li>
+                <li><strong>Dial 1930 Immediately:</strong> Contact the National Cyber Crime Helpline within 2 hours to initiate transaction stoppage across the Indian banking network.</li>
+                <li><strong>Notify Your Bank:</strong> Instruct your bank branch manager to freeze the originating account to prevent further unauthorized debits.</li>
+                <li><strong>File Formal NCRP Report:</strong> Register the detailed complaint with transaction UTR numbers on this portal.</li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- Section 6: Legal Framework -->
+          <section id="section-legal" class="article-section">
+            <h2>6. Legal & Penal Framework</h2>
+            <p>Offenses of this nature attract severe criminal liabilities under Indian law:</p>
+            
+            <table class="legal-table">
+              <thead>
+                <tr>
+                  <th>Statute / Section</th>
+                  <th>Offense Definition</th>
+                  <th>Prescribed Penalty</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>IT Act Section 66D</strong></td>
+                  <td>Cheating by personation by using computer resource</td>
+                  <td>Imprisonment up to 3 years and fine</td>
+                </tr>
+                <tr>
+                  <td><strong>BNS Section 318 / IPC 420</strong></td>
+                  <td>Cheating and dishonestly inducing delivery of property</td>
+                  <td>Rigorous imprisonment up to 7 years</td>
+                </tr>
+                <tr>
+                  <td><strong>BNS Section 204 / IPC 170</strong></td>
+                  <td>Personating a public servant</td>
+                  <td>Imprisonment and mandatory fine</td>
+                </tr>
+                <tr>
+                  <td><strong>BNS Section 308 / IPC 384</strong></td>
+                  <td>Extortion through fear of injury or arrest</td>
+                  <td>Imprisonment up to 3 years or fine</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Section 7: Evidence Preservation -->
+          <section id="section-evidence" class="article-section">
+            <h2>7. Evidence Preservation Checklist</h2>
+            <p>
+              When reporting the matter to the Cyber Crime Police Station, ensure you preserve the following technical artifacts:
+            </p>
+            <ul>
+              <li>High-resolution screenshots of the video call and display avatars.</li>
+              <li>Call logs showing exact timestamps and incoming phone numbers.</li>
+              <li>Bank account statements showing the beneficiary account number, IFSC code, and 12-digit UTR reference number.</li>
+              <li>Copies of forged documents, warrants, or identity cards transmitted by scammers.</li>
+            </ul>
+          </section>
+
+          <!-- Bottom Action Callout -->
+          <div class="action-cta-box">
+            <h3>Have You Been Targeted by Cyber Fraud?</h3>
+            <p>Our automated AI grid connects directly with banking fraud monitoring units and Law Enforcement command centers for rapid mitigation.</p>
+            <a href="/" class="btn-white">Go to Portal & Register Incident</a>
+          </div>
+
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span>NCRP Sentinel</span>
+        </div>
+        <p class="footer-text">
+          Indian Cyber Crime Coordination Centre (I4C), Ministry of Home Affairs, Government of India.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Emergency Numbers</h4>
+        <p>National Cyber Helpline: <strong>1930</strong></p>
+        <p>National Emergency Number: <strong>112</strong></p>
+      </div>
+      <div class="footer-col">
+        <h4>Legal Disclaimer</h4>
+        <p>This advisory portal is a simulated operational framework developed for research and educational purposes.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

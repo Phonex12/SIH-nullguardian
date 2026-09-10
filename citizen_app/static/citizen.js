@@ -207,8 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     modalSubmitBtn.disabled = true;
-    modalSubmitBtn.innerHTML = "<i data-lucide='cpu'></i><span>Transmitting & Running AI Trajectory Model...</span>";
-    if (window.lucide) lucide.createIcons();
+    modalSubmitBtn.innerHTML = "<span>Transmitting & Running AI Trajectory Model...</span>";
 
     const payload = {
       victim_name: document.getElementById("modal-victim-name").value.trim(),
@@ -258,14 +257,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         goToFormStep(4);
       } else {
-        alert(data.detail || "Failed to submit complaint.");
+        alert(data.detail || "Failed to register complaint.");
         modalSubmitBtn.disabled = false;
-        modalSubmitBtn.innerHTML = "<i data-lucide='send'></i><span>Submit & Transmit Complaint</span>";
-        if (window.lucide) lucide.createIcons();
+        modalSubmitBtn.innerHTML = "<span>Submit & Transmit Complaint</span>";
       }
     } catch (err) {
-      alert("Error transmitting complaint to NCRP gateway.");
+      alert("Submission Error: " + (err.message || "Could not connect to NCRP gateway."));
       modalSubmitBtn.disabled = false;
+      modalSubmitBtn.innerHTML = "<span>Submit & Transmit Complaint</span>";
     }
   });
 
