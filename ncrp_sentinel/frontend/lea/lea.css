@@ -1,0 +1,493 @@
+:root {
+    --bg-base: #060911;
+    --bg-surface: #0c1220;
+    --bg-card: #111a2e;
+    --bg-hover: #182542;
+    --border-color: #1e2e4f;
+    --border-bright: #2d4575;
+    
+    --neon-cyan: #00f0ff;
+    --neon-blue: #3b82f6;
+    --neon-green: #10e785;
+    --neon-amber: #f59e0b;
+    --neon-red: #ff3366;
+    --neon-purple: #a855f7;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-cyan: #67e8f9;
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-sans);
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Top Tactical Bar */
+.lea-top-nav {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+.lea-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.radar-logo {
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 0%, rgba(6, 9, 17, 1) 70%);
+    border: 1.5px solid var(--neon-cyan);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+}
+
+.radar-logo::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-top: 2px solid var(--neon-cyan);
+    animation: radarSweep 2s linear infinite;
+}
+
+@keyframes radarSweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.brand-text h1 {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.brand-text p {
+    font-size: 11px;
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+}
+
+.officer-hud {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(17, 26, 46, 0.8);
+    border: 1px solid var(--border-bright);
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.officer-badge {
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    font-weight: 700;
+}
+
+.officer-status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--neon-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--neon-green);
+}
+
+/* Telemetry Ticker Strip */
+.telemetry-strip {
+    background: #080d1a;
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    overflow-x: auto;
+}
+
+.telemetry-item {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 14px;
+    border-left: 2px solid var(--border-bright);
+}
+
+.telemetry-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.telemetry-val {
+    font-size: 16px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    margin-top: 1px;
+}
+
+.telemetry-val.cyan { color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0,240,255,0.4); }
+.telemetry-val.amber { color: var(--neon-amber); }
+.telemetry-val.green { color: var(--neon-green); }
+.telemetry-val.red { color: var(--neon-red); }
+
+/* Main Tactical Grid */
+.tactical-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr 340px;
+    flex: 1;
+    height: calc(100vh - 180px);
+    overflow: hidden;
+}
+
+/* Panel Containers */
+.tactical-panel {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tactical-panel.right {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+.panel-header {
+    background: #090f1d;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-header h2 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-content {
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Incident Feed Items */
+.incident-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.incident-card:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-bright);
+    transform: translateX(2px);
+}
+
+.incident-card.selected {
+    background: #13223f;
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 14px rgba(0, 240, 255, 0.2);
+}
+
+.incident-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+}
+
+.incident-case-id {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--neon-cyan);
+}
+
+.badge-threat {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+}
+
+.badge-critical { background: rgba(255, 51, 102, 0.2); color: var(--neon-red); border: 1px solid var(--neon-red); }
+.badge-high { background: rgba(245, 158, 11, 0.2); color: var(--neon-amber); border: 1px solid var(--neon-amber); }
+.badge-locked { background: rgba(16, 231, 133, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
+
+.incident-amount {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.incident-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    display: flex;
+    gap: 8px;
+}
+
+.incident-prediction-summary {
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-top: 8px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Center Map Container */
+.map-viewport-container {
+    position: relative;
+    background: #05080e;
+    display: flex;
+    flex-direction: column;
+}
+
+#tacticalMap {
+    width: 100%;
+    height: 100%;
+    background: #05080e;
+}
+
+/* Floating Map Controls */
+.map-overlay-controls {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 500;
+    background: rgba(12, 18, 32, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.map-control-select {
+    background: #111a2e;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    outline: none;
+}
+
+/* Proactive Interventions Drawer / Right Panel */
+.action-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.action-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.action-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.btn-tactical {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-freeze {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+.btn-freeze:hover {
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+}
+
+.btn-dispatch {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+}
+
+.btn-dispatch:hover {
+    box-shadow: 0 0 18px rgba(2, 132, 199, 0.6);
+}
+
+.btn-surveillance {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #ffffff;
+}
+
+.btn-tactical.done {
+    background: #065f46 !important;
+    color: #6ee7b7 !important;
+    cursor: default;
+    box-shadow: none !important;
+}
+
+/* Bottom Event Ticker */
+.bottom-terminal-strip {
+    height: 50px;
+    background: #04060a;
+    border-top: 1px solid var(--border-color);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.terminal-prompt {
+    color: var(--neon-cyan);
+    font-weight: 700;
+}
+
+.scrolling-ticker {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #a5f3fc;
+}
+
+/* Login Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 6, 11, 0.88);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.login-card {
+    background: #0d1424;
+    border: 1.5px solid var(--neon-cyan);
+    border-radius: 12px;
+    max-width: 440px;
+    width: 90%;
+    padding: 32px;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+    text-align: center;
+}
+
+.quick-officer-btn {
+    background: #131e36;
+    border: 1px solid var(--border-bright);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.quick-officer-btn:hover {
+    background: #1a2a4c;
+    border-color: var(--neon-cyan);
+}
+
+/* Leaflet Custom Marker & Pulsing Radar Animation */
+.radar-pulse-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 51, 102, 0.7);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 15px #ff3366;
+    animation: markerPing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes markerPing {
+    75%, 100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEA Tactical Command Terminal | I4C &amp; NCRP Sentinel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet GIS Map Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Leaflet Heatmap Plugin -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+    <link rel="stylesheet" href="/static/lea/lea.css">
+</head>
+<body>
+
+    <!-- Top Tactical Navigation -->
+    <header class="lea-top-nav">
+        <div class="lea-brand">
+            <div class="radar-logo">
+                <span style="font-size: 14px;">📡</span>
+            </div>
+            <div class="brand-text">
+                <h1>I4C SENTINEL // TACTICAL COMMAND</h1>
+                <p>AI-DRIVEN PREDICTIVE CYBERCRIME MITIGATION &amp; ATM TRAJECTORY INTERCEPT</p>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <div class="officer-hud" id="officerHudBox">
+                <div class="officer-status-dot"></div>
+                <div>
+                    <span class="officer-badge" id="officerBadgeText">I4C-DEL-892</span>
+                    <span style="color: var(--text-muted); margin: 0 4px;">•</span>
+                    <span id="officerNameText">Insp. Vikram Malhotra</span>
+                </div>
+            </div>
+            <a href="http://127.0.0.1:8000/" target="_blank" rel="noopener" style="color: #94a3b8; font-size: 12px; text-decoration: none; padding: 6px 12px; border: 1px solid #1e2e4f; border-radius: 6px;">
+                🏛️ Citizen Portal (Port 8000)
+            </a>
+            <button type="button" id="btnLogout" style="background: transparent; border: none; color: #f87171; font-size: 12px; cursor: pointer; font-weight: 600;">
+                Log Out
+            </button>
+        </div>
+    </header>
+
+    <!-- Telemetry Ticker Strip -->
+    <section class="telemetry-strip">
+        <div class="telemetry-item">
+            <span class="telemetry-label">Monitored ATMs (GIS)</span>
+            <span class="telemetry-val cyan" id="statTotalAtms">7,000</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">Active Cyber Incidents</span>
+            <span class="telemetry-val red" id="statLiveCases">--</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">Critical Risk Clusters</span>
+            <span class="telemetry-val amber" id="statCriticalAtms">--</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">Accounts Frozen (CFCFRMS)</span>
+            <span class="telemetry-val green" id="statFrozenAccounts">--</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">Intercept Units Active</span>
+            <span class="telemetry-val cyan" id="statActiveUnits">42 PCR Units</span>
+        </div>
+        <div class="telemetry-item">
+            <span class="telemetry-label">AI Inference Latency</span>
+            <span class="telemetry-val green" id="statLatency">14.2 ms</span>
+        </div>
+    </section>
+
+    <!-- Main Tactical Workspace (3 Columns) -->
+    <main class="tactical-grid">
+
+        <!-- Column 1: Live Incidents & Trajectory Queue -->
+        <aside class="tactical-panel">
+            <div class="panel-header">
+                <h2>⚡ Live Threat Feed</h2>
+                <button type="button" id="btnRefreshCases" style="background: transparent; border: none; color: var(--neon-cyan); cursor: pointer; font-size: 12px;">
+                    ↻ Refresh
+                </button>
+            </div>
+            <div style="padding: 10px 16px; background: #080d1a; border-bottom: 1px solid var(--border-color); display: flex; gap: 8px;">
+                <select id="filterCrimeType" class="map-control-select" style="flex: 1;">
+                    <option value="ALL">All Offense Types</option>
+                    <option value="DIGITAL_ARREST">Digital Arrest</option>
+                    <option value="UPI_FRAUD">UPI Fraud</option>
+                    <option value="JOB_FRAUD">Job Scam</option>
+                    <option value="INVESTMENT_FRAUD">Investment</option>
+                </select>
+            </div>
+            <div class="panel-content" id="incidentListContainer">
+                <!-- Cases injected dynamically -->
+            </div>
+        </aside>
+
+        <!-- Column 2: Geospatial Map Viewport -->
+        <section class="map-viewport-container">
+            <!-- Map Floating Controls -->
+            <div class="map-overlay-controls">
+                <span style="font-size: 11px; font-weight: 700; color: var(--neon-cyan);">GIS LAYERS:</span>
+                <select id="mapStateFilter" class="map-control-select">
+                    <option value="all">All States (National)</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="West Bengal">West Bengal</option>
+                </select>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); cursor: pointer;">
+                    <input type="checkbox" id="toggleHeatmap" checked style="accent-color: var(--neon-cyan);">
+                    <span>ATM Risk Heatmap</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); cursor: pointer;">
+                    <input type="checkbox" id="toggleAtmMappings" checked style="accent-color: var(--neon-cyan);">
+                    <span>Target ATM Pins</span>
+                </label>
+            </div>
+
+            <div id="tacticalMap"></div>
+        </section>
+
+        <!-- Column 3: Proactive Interventions & Incident Command -->
+        <aside class="tactical-panel right">
+            <div class="panel-header">
+                <h2>🎯 Proactive Interventions</h2>
+                <span id="selectedCaseBadge" style="font-size: 10px; font-family: var(--font-mono); color: var(--neon-cyan);">SELECT CASE</span>
+            </div>
+            <div class="panel-content" id="caseCommandPanel">
+                <div id="noCaseSelectedMsg" style="text-align: center; color: var(--text-muted); padding: 40px 10px; font-size: 13px;">
+                    <span style="font-size: 32px; display: block; margin-bottom: 12px;">📡</span>
+                    Select an active cyber incident from the Live Threat Feed to inspect its digital mule trail, view the predicted cashout ATM, and trigger proactive interventions.
+                </div>
+
+                <div id="activeCaseDetailBox" style="display: none;">
+                    <!-- Case Summary Header -->
+                    <div style="background: #090f1d; border: 1px solid var(--border-bright); border-radius: 6px; padding: 12px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 14px; font-weight: 800; color: #ffffff;" id="detailCaseId">CASE_XXXXX</span>
+                            <span class="badge-threat badge-critical" id="detailThreatBadge">CRITICAL</span>
+                        </div>
+                        <div style="font-size: 18px; font-weight: 800; color: var(--neon-cyan); margin: 6px 0;" id="detailAmount">₹0.00</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);" id="detailVictimMeta">Victim: -- | Acc: --</div>
+                    </div>
+
+                    <!-- AI ATM Trajectory Spotlight -->
+                    <div style="background: rgba(0, 240, 255, 0.05); border-left: 3px solid var(--neon-cyan); padding: 12px; border-radius: 0 6px 6px 0; margin-bottom: 18px;">
+                        <div style="font-size: 11px; font-weight: 700; color: var(--neon-cyan); letter-spacing: 0.5px;">AI PREDICTED PHYSICAL CASHOUT ATM:</div>
+                        <div style="font-size: 15px; font-weight: 800; color: #ffffff; margin-top: 4px;" id="detailAtmId">ATM_000000</div>
+                        <div style="font-size: 12px; color: #cbd5e1; margin-top: 2px;" id="detailAtmLoc">--</div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #67e8f9; font-family: var(--font-mono);">
+                            <span id="detailAtmDist">Dist: 0.0 km</span>
+                            <span id="detailAtmConf">Confidence: 0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Action 1: Instant Bank Fund Freeze -->
+                    <div class="action-box">
+                        <div class="action-title">
+                            <span>🔒</span> 1-Click Bank Fund Freeze (CFCFRMS)
+                        </div>
+                        <p class="action-desc">
+                            Directs an automated emergency lien instruction through the Citizen Financial Cyber Fraud Reporting System to freeze the destination mule account.
+                        </p>
+                        <button type="button" class="btn-tactical btn-freeze" id="btnActionFreeze">
+                            <span>⚡ Execute Automated Lien / Freeze</span>
+                        </button>
+                    </div>
+
+                    <!-- Action 2: Dispatch Intercept Team -->
+                    <div class="action-box">
+                        <div class="action-title">
+                            <span>🚓</span> Dispatch Tactical PCR Intercept
+                        </div>
+                        <p class="action-desc">
+                            Transmits GPS coordinates and suspect alert to the nearest Police Control Room (PCR) vehicle to cordon the target ATM before cashout occurs.
+                        </p>
+                        <button type="button" class="btn-tactical btn-dispatch" id="btnActionDispatch">
+                            <span>🚨 Dispatch Nearest Unit (ETA: 8-12m)</span>
+                        </button>
+                    </div>
+
+                    <!-- Action 3: CCTV & Branch Alert -->
+                    <div class="action-box">
+                        <div class="action-title">
+                            <span>📹</span> ATM Surveillance Camera Trigger
+                        </div>
+                        <p class="action-desc">
+                            Flags the bank ATM security CCTV feed for immediate facial recognition analysis and alerts on-site guards.
+                        </p>
+                        <button type="button" class="btn-tactical btn-surveillance" id="btnActionSurveillance">
+                            <span>👁️ Trigger Surveillance Alert</span>
+                        </button>
+                    </div>
+
+                    <!-- Digital Hop Breakdown -->
+                    <div style="margin-top: 20px;">
+                        <h4 style="font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">
+                            Digital Hop Sequence:
+                        </h4>
+                        <div id="detailHopsFlow" style="font-size: 11px; font-family: var(--font-mono); color: #cbd5e1;">
+                            <!-- Injected hops -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Bottom Real-Time Event Terminal Strip -->
+    <footer class="bottom-terminal-strip">
+        <span class="terminal-prompt">[I4C_TELEMETRY]:</span>
+        <div class="scrolling-ticker" id="terminalTicker">
+            SYSTEM BOOT COMPLETE // PYTORCH TRAJECTORY LSTM ACTIVE // LISTENING FOR INCOMING INCIDENT HOPS...
+        </div>
+    </footer>
+
+    <!-- LEA Authentication Modal (Displayed if no officer token) -->
+    <div class="modal-overlay" id="loginModal" style="display: none;">
+        <div class="login-card">
+            <div style="font-size: 36px; margin-bottom: 12px;">🛡️</div>
+            <h2 style="font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: 1px;">LAW ENFORCEMENT ACCESS</h2>
+            <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 20px;">
+                Secured Terminal. Authorized LEA Officers &amp; I4C Cyber Command Only.
+            </p>
+
+            <form id="leaLoginForm">
+                <div style="text-align: left; margin-bottom: 14px;">
+                    <label style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">OFFICER BADGE ID</label>
+                    <input type="text" id="badgeIdInput" class="form-input" style="background: #111a2e; color: #fff; border: 1px solid var(--border-color); padding: 10px; width: 100%; border-radius: 4px; font-family: var(--font-mono); margin-top: 4px;" value="I4C-DEL-892" required>
+                </div>
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">SECURITY PASSKEY</label>
+                    <input type="password" id="passwordInput" class="form-input" style="background: #111a2e; color: #fff; border: 1px solid var(--border-color); padding: 10px; width: 100%; border-radius: 4px; font-family: var(--font-mono); margin-top: 4px;" value="Sentinel@2026" required>
+                </div>
+                <button type="submit" class="btn-tactical btn-dispatch" style="padding: 12px; font-size: 14px;">
+                    Authenticate &amp; Initialize Command
+                </button>
+            </form>
+
+            <div style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 16px; text-align: left;">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700;">TEST BENCH CREDENTIALS (1-CLICK):</div>
+                <button type="button" class="quick-officer-btn" onclick="quickLogin('I4C-DEL-892', 'Sentinel@2026')">
+                    <strong>Insp. Vikram Malhotra</strong> — I4C Cyber Intelligence (DEL-892)
+                </button>
+                <button type="button" class="quick-officer-btn" onclick="quickLogin('LEA-MUM-441', 'Sentinel@2026')">
+                    <strong>ACP Ananya Deshmukh</strong> — Maharashtra Cyber Police (MUM-441)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/lea/lea.js"></script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NCRP Sentinel — LEA Tactical Command Center</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Leaflet GIS Map Library & Tiles -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+  <link rel="stylesheet" href="/static/lea.css">
+</head>
+<body>
+
+  <!-- Modern Top Navigation -->
+  <header class="admin-header">
+    <div class="nav-container">
+      
+      <!-- Brand Logo -->
+      <div class="brand">
+        <div class="brand-avatar">IN</div>
+        <div class="brand-info">
+          <span class="brand-title">NCRP Sentinel</span>
+          <span class="brand-sub">I4C Command Center</span>
+        </div>
+      </div>
+
+      <!-- Navigation Switcher -->
+      <nav class="nav-pills-group">
+        <button class="pill-btn active" data-tab="dashboard-view">
+          <span>Dashboard</span>
+        </button>
+        <button class="pill-btn" data-tab="cases-view">
+          <span>Live Cases Queue</span>
+        </button>
+        <button class="pill-btn" data-tab="gis-view">
+          <span>ATM GIS Map</span>
+        </button>
+        <button class="pill-btn" data-tab="interventions-view">
+          <span>Interventions</span>
+        </button>
+        <button class="pill-btn" data-tab="audit-view">
+          <span>Audit Logs</span>
+        </button>
+      </nav>
+
+      <!-- Top Right Utility Actions -->
+      <div class="header-utilities">
+        <div class="live-pulse-badge">
+          <span class="pulse-dot"></span>
+          <span>Grid Active</span>
+        </div>
+        <div class="officer-profile">
+          <div class="officer-img">VS</div>
+          <div class="officer-meta">
+            <span class="name">Insp. Sharma</span>
+            <span class="role">Badge #007</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Live Tactical Alert Banner (Triggers automatically when a new complaint is filed) -->
+  <div id="live-threat-banner" class="threat-alert-banner hidden">
+    <div class="banner-inner">
+      <div class="banner-badge">P1 TACTICAL INTERCEPT ALERT</div>
+      <div class="banner-text">
+        <strong id="banner-complaint-id">NCRP-2026-XXXX</strong>: <span id="banner-msg">Incoming Cyber Threat — Predicted Cashout Hotspot in ~20 mins</span>
+      </div>
+      <div class="banner-actions">
+        <button id="banner-view-map-btn" class="banner-action-btn">Track on GIS Map &rarr;</button>
+        <button id="banner-dismiss-btn" class="banner-close-btn">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- TAB 1: EXECUTIVE DASHBOARD -->
+    <section id="dashboard-view" class="view-panel active">
+      
+      <!-- Welcome Header & Time Range Filter -->
+      <div class="welcome-header">
+        <div class="welcome-text">
+          <h1 class="greeting">Command Dashboard — <span class="officer-name-highlight">Insp. Sharma</span></h1>
+          <p class="greeting-sub">National Proactive Cybercrime Mitigation Grid & AI ATM Interception Overview</p>
+        </div>
+
+        <div class="time-range-picker">
+          <button class="time-btn">Day</button>
+          <button class="time-btn">Week</button>
+          <button class="time-btn active">Month</button>
+          <button class="time-btn">Year</button>
+        </div>
+      </div>
+
+      <!-- Top Metric Cards Grid -->
+      <div class="metrics-row">
+        
+        <!-- Total Cyber Fraud Card -->
+        <div class="metric-card big-card">
+          <div class="card-label-row">
+            <span class="metric-title">Total Fraud Volume Ingested</span>
+            <span class="trend-badge positive">Live Sync</span>
+          </div>
+          <div class="metric-value-huge" id="stat-total-fraud">₹0.00</div>
+          <div class="card-sub-info">
+            <span>Secured via NCRP Freeze: <strong id="stat-secured-funds" class="text-emerald">₹0.00</strong></span>
+          </div>
+          
+          <div class="quick-action-buttons">
+            <button class="quick-btn primary-action" id="open-freeze-modal-btn">
+              <span>Freeze Mule Account</span>
+            </button>
+            <button class="quick-btn secondary-action" id="open-dispatch-modal-btn">
+              <span>Dispatch Patrol</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric 2: Intercept Statistics Card -->
+        <div class="metric-card medium-card">
+          <div class="card-label-row">
+            <span class="metric-title">Active AI Risk Trajectories</span>
+          </div>
+          <div class="metric-value-medium" id="stat-ai-trajectories">0</div>
+          <div class="bar-chart-preview">
+            <div class="bar-stat-label">
+              <span><b>Real-Time</b> Trajectory Calculation</span>
+              <span class="date-range">PyTorch LSTM</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric 3: Physical ATM Grid Status Card -->
+        <div class="metric-card medium-card">
+          <div class="card-label-row">
+            <span class="metric-title">Monitored ATM Cashout Points</span>
+          </div>
+          <div class="metric-value-medium" id="stat-monitored-atms">2,793</div>
+          <div class="bar-chart-preview">
+            <div class="bar-stat-label">
+              <span><b>12%</b> Critical Risk Clusters</span>
+              <span class="date-range">54 Cities</span>
+            </div>
+            <div class="bar-strip-chart">
+              <div class="bar-strip h-1"></div>
+              <div class="bar-strip h-3"></div>
+              <div class="bar-strip h-2"></div>
+              <div class="bar-strip h-5"></div>
+              <div class="bar-strip h-4"></div>
+              <div class="bar-strip h-6"></div>
+              <div class="bar-strip h-8"></div>
+              <div class="bar-strip h-7"></div>
+              <div class="bar-strip h-5"></div>
+              <div class="bar-strip h-9"></div>
+              <div class="bar-strip h-6"></div>
+              <div class="bar-strip h-8"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Second Row: Three Cards (Analytics, Activity Grid, Recent Transactions) -->
+      <div class="dashboard-triple-grid">
+        
+        <!-- Left: Threat Dynamics Curve Card -->
+        <div class="surface-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h3>Financial Threat Flow</h3>
+            </div>
+          </div>
+
+          <div class="legend-row">
+            <div class="legend-item"><span class="dot emerald"></span> Defrauded (₹)</div>
+            <div class="legend-item"><span class="dot indigo"></span> Secured / Intercepted (₹)</div>
+          </div>
+
+          <div class="wave-chart-mock">
+            <svg viewBox="0 0 400 160" class="chart-svg">
+              <defs>
+                <linearGradient id="grad-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#059669" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#059669" stop-opacity="0.0"/>
+                </linearGradient>
+                <linearGradient id="grad-indigo" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#1e40af" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#1e40af" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,130 Q70,40 140,80 T280,30 T400,60 L400,160 L0,160 Z" fill="url(#grad-emerald)" />
+              <path d="M0,130 Q70,40 140,80 T280,30 T400,60" fill="none" stroke="#059669" stroke-width="2.5" />
+              <path d="M0,150 Q80,100 160,120 T300,70 T400,100" fill="none" stroke="#1e40af" stroke-width="2" stroke-dasharray="4 4" />
+            </svg>
+            <div class="chart-months">
+              <span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle: Activity Time Heatmap Grid -->
+        <div class="surface-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h3>Peak Incident Hours</h3>
+            </div>
+          </div>
+
+          <div class="heatmap-matrix-wrapper">
+            <div class="matrix-days-header">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+            
+            <div class="matrix-grid" id="matrix-grid-cells">
+              <!-- Dynamically populated 6 rows x 7 cols squares -->
+            </div>
+
+            <div class="heatmap-legend">
+              <span class="legend-text">Low Cashouts</span>
+              <div class="legend-scale">
+                <span class="cell-level l-0"></span>
+                <span class="cell-level l-1"></span>
+                <span class="cell-level l-2"></span>
+                <span class="cell-level l-3"></span>
+                <span class="cell-level l-4"></span>
+              </div>
+              <span class="legend-text">Peak Risk</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Recent Ingested Cases Feed -->
+        <div class="surface-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h3>Incoming Cyber Cases</h3>
+            </div>
+          </div>
+
+          <div class="recent-cases-list" id="dashboard-recent-cases">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 2: LIVE CASES QUEUE -->
+    <section id="cases-view" class="view-panel hidden">
+      <div class="section-header">
+        <div>
+          <h2>Active Cyber Investigation Queue</h2>
+          <p class="section-sub">Incoming complaints with PyTorch LSTM trajectory predictions and action buttons</p>
+        </div>
+        <button class="primary-btn" id="refresh-cases-btn">
+          <span>Refresh Feed</span>
+        </button>
+      </div>
+
+      <div class="surface-card table-card">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Victim / Phone</th>
+              <th>Reported Loss</th>
+              <th>Modality</th>
+              <th>Origin Location</th>
+              <th>AI Predicted ATM Target</th>
+              <th>Status</th>
+              <th>Tactical Actions</th>
+            </tr>
+          </thead>
+          <tbody id="cases-table-body">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: ATM GIS HEATMAP VIEW -->
+    <section id="gis-view" class="view-panel hidden">
+      <div class="section-header">
+        <div>
+          <h2>Geospatial ATM Interception Grid & Attack Vector Visualizer</h2>
+          <p class="section-sub">Visualizing money trail vectors from source victim to predicted physical cashout ATM with 1.5 km intercept geofence</p>
+        </div>
+        <div class="map-controls-grid">
+          <select id="map-case-selector" class="modern-select mini">
+            <option value="all">Plot: All Monitored Clusters</option>
+            <!-- Dynamically populated with active cases -->
+          </select>
+          <select id="map-category-filter" class="modern-select mini">
+            <option value="all">All Modality Types</option>
+            <option value="Electricity Bill Update Phishing APK">Electricity Bill APK</option>
+            <option value="Digital Arrest / Fake Police Video Call">Digital Arrest</option>
+            <option value="Telegram Part-Time Job / Crypto Task">Telegram Job / Crypto</option>
+            <option value="Fake Customer Care / Screen Sharing (AnyDesk)">Fake Care / AnyDesk</option>
+            <option value="Loan App Extortion / Harassment">Loan App Extortion</option>
+            <option value="UPI / QR Code Scan Fraud">UPI / QR Fraud</option>
+          </select>
+          <select id="map-city-filter" class="modern-select mini">
+            <option value="all">All India Cities</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Surat">Surat</option>
+            <option value="Pune">Pune</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Hosur">Hosur</option>
+            <option value="Nashik">Nashik</option>
+            <option value="Delhi">Delhi</option>
+          </select>
+          <button id="center-map-btn" class="secondary-btn mini">
+            <span>Reset View</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Vector Legend -->
+      <div class="map-legend-strip">
+        <div class="legend-chip"><span class="chip-line blue"></span> Victim &rarr; Mule 1 Hop</div>
+        <div class="legend-chip"><span class="chip-line purple"></span> Mule 1 &rarr; Mule 2 Hop</div>
+        <div class="legend-chip"><span class="chip-line red-dashed"></span> AI Predicted Cashout Trajectory</div>
+        <div class="legend-chip"><span class="chip-circle red"></span> 1.5 km Tactical Intercept Radius</div>
+      </div>
+
+      <div class="surface-card map-card-container">
+        <div id="leaflet-map" class="map-canvas"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: INTERVENTIONS CONTROL ROOM -->
+    <section id="interventions-view" class="view-panel hidden">
+      <div class="section-header">
+        <div>
+          <h2>Tactical Interventions Control</h2>
+          <p class="section-sub">Direct Section 43 core banking debit freeze and PCR unit dispatch center</p>
+        </div>
+      </div>
+
+      <div class="interventions-grid">
+        <div class="surface-card">
+          <div class="card-header-bar">
+            <h3>Instant Mule Account Debit Freeze</h3>
+          </div>
+          <p class="form-desc">Dispatches Section 43 freeze instruction to Indian Core Banking via NCRP 1930 Gateway.</p>
+          
+          <div class="form-group-lea">
+            <label>Select Case</label>
+            <select id="freeze-case-select" class="modern-select">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-group-lea">
+            <label>Mule Account / UPI ID</label>
+            <input type="text" id="freeze-acc-input" class="modern-input" placeholder="e.g. ICIC0009912-771823">
+          </div>
+
+          <div class="form-group-lea">
+            <label>Destination Bank Code</label>
+            <input type="text" id="freeze-bank-input" class="modern-input" placeholder="e.g. ICIC">
+          </div>
+
+          <button id="exec-freeze-btn" class="primary-btn glow-purple">
+            <span>Execute Emergency Freeze</span>
+          </button>
+        </div>
+
+        <div class="surface-card">
+          <div class="card-header-bar">
+            <h3>Police PCR Unit Dispatch</h3>
+          </div>
+          <p class="form-desc">Directs nearest Police Control Room vehicle to the AI-predicted ATM before the cashout occurs.</p>
+
+          <div class="form-group-lea">
+            <label>Select Target Case</label>
+            <select id="dispatch-case-select" class="modern-select">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-group-lea">
+            <label>Predicted Target ATM</label>
+            <input type="text" id="dispatch-atm-input" class="modern-input" placeholder="ATM_GJ_SRT_041">
+          </div>
+
+          <div class="form-group-lea">
+            <label>Target City & Zone</label>
+            <input type="text" id="dispatch-city-input" class="modern-input" placeholder="Surat, Ring Road">
+          </div>
+
+          <button id="exec-dispatch-btn" class="primary-btn glow-emerald">
+            <span>Dispatch PCR Intercept Team</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: AUDIT TRAIL -->
+    <section id="audit-view" class="view-panel hidden">
+      <div class="section-header">
+        <div>
+          <h2>Immutable Forensic Audit Log</h2>
+          <p class="section-sub">Cryptographically signed logs of all tactical operations and case dispatches</p>
+        </div>
+      </div>
+
+      <div class="surface-card">
+        <div class="audit-stream" id="audit-stream-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Multi-Channel Broadcast Simulation Modal -->
+  <div id="broadcast-modal" class="modal-backdrop hidden">
+    <div class="broadcast-card">
+      <div class="broadcast-header">
+        <div class="broadcast-title">
+          <span class="live-dot-green"></span>
+          <h3>Multi-Agency Real-Time Action Broadcast</h3>
+        </div>
+        <button id="close-broadcast-btn" class="banner-close-btn">✕</button>
+      </div>
+
+      <p class="broadcast-desc">Executing synchronous cryptographic instruction to Core Banking (CFCFRMS/1930) and Police CAD Dispatch Units.</p>
+
+      <div class="broadcast-steps-list">
+        <div class="b-step completed" id="bstep-1">
+          <div class="b-icon">✓</div>
+          <div>
+            <strong>[NCRP Section 43 Authorization]</strong>
+            <p>Cryptographic warrant issued by Insp. Sharma (Badge #007).</p>
+          </div>
+        </div>
+
+        <div class="b-step completed" id="bstep-2">
+          <div class="b-icon">✓</div>
+          <div>
+            <strong>[Core Banking API Gateway]</strong>
+            <p id="bstep-bank-msg">HTTP 200 OK &mdash; Account debits blocked at Beneficiary Bank Core API.</p>
+          </div>
+        </div>
+
+        <div class="b-step completed" id="bstep-3">
+          <div class="b-icon">✓</div>
+          <div>
+            <strong>[State Police CAD / GPS AVL]</strong>
+            <p id="bstep-cad-msg">Priority 1 Intercept payload dispatched to Patrol Unit PCR-DELTA-4.</p>
+          </div>
+        </div>
+
+        <div class="b-step completed" id="bstep-4">
+          <div class="b-icon">✓</div>
+          <div>
+            <strong>[I4C Central Mitigation Grid]</strong>
+            <p>National intelligence ledger updated. Incident status set to FROZEN SECURED.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:right; margin-top:20px;">
+        <button id="broadcast-done-btn" class="primary-btn">Acknowledge & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/lea.js"></script>
+</body>
+</html>

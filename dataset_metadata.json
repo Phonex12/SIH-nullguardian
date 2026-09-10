@@ -1,0 +1,21 @@
+{
+  "synthetic_only": true,
+  "accounts": 100000,
+  "mule_accounts": 3500,
+  "atms": 7000,
+  "fraud_cases": 10000,
+  "fraud_transactions": 33207,
+  "normal_transactions": 1000000,
+  "total_transactions": 1033207,
+  "fraud_strategies": [
+    "DIRECT_CASHOUT",
+    "MULTI_HOP",
+    "FAN_OUT",
+    "FAN_IN",
+    "CROSS_STATE",
+    "CROSS_BORDER",
+    "DIGITAL_ASSET",
+    "ADAPTIVE"
+  ],
+  "anti_leakage": "Ground truth is separate; split is by case."
+}

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Cybercrime Reporting Portal &amp; Awareness Hub | Government of India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Consolas&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/citizen/citizen.css">
+</head>
+<body>
+
+    <!-- National Tricolor Stripe -->
+    <div class="tricolor-stripe"></div>
+
+    <!-- Top Emergency Bar -->
+    <div class="top-emergency-bar">
+        <div class="alert-left">
+            <div class="pulsing-dot"></div>
+            <span><strong>CYBER FINANCIAL FRAUD ALERT:</strong> Golden Hour Intervention Active. Call <strong>1930</strong> immediately if defrauded within last 2 hours.</span>
+        </div>
+        <div class="top-links">
+            <a href="http://127.0.0.1:9000/" class="lea-link-pill" target="_blank" rel="noopener">
+                <span>🛡️ LEA Tactical Terminal (Port 9000)</span>
+            </a>
+            <a href="/admin" class="lea-link-pill" style="background: rgba(239, 68, 68, 0.3);" title="Test Honeypot Protection">
+                <span>⚠️ Admin Access</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="gov-header">
+        <div class="header-container">
+            <div class="emblem-section">
+                <div class="emblem-logo">🏛️</div>
+                <div class="portal-titles">
+                    <h1>National Cybercrime Reporting Portal</h1>
+                    <p>Ministry of Home Affairs | Indian Cyber Crime Coordination Centre (I4C)</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="i4c-shield-badge">
+                    <span>⚡ AI Proactive Defense Node</span>
+                </div>
+                <div id="authStatusBadge" style="display: none; font-size: 12px; font-weight: 600; color: #15803d; background: #dcfce7; padding: 6px 14px; border-radius: 20px; border: 1px solid #86efac;">
+                    ✓ Aadhaar Verified
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <nav class="portal-nav-bar">
+        <div class="nav-container">
+            <button type="button" class="nav-tab-btn active" id="tabNavReport" onclick="switchMainView('report')">
+                <span>📝</span> Report Cyber Financial Crime
+            </button>
+            <button type="button" class="nav-tab-btn" id="tabNavLearn" onclick="switchMainView('learn')">
+                <span>📚</span> Cyber Awareness &amp; Learning Hub
+            </button>
+            <button type="button" class="nav-tab-btn" id="tabNavDiagnostic" onclick="switchMainView('diagnostic')">
+                <span>🔍</span> 'Is This a Scam?' Checker
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-wrapper">
+
+        <!-- ======================================================== -->
+        <!-- VIEW 1: REPORT CYBERCRIME WIZARD (DEFAULT)               -->
+        <!-- ======================================================== -->
+        <div id="viewReportContainer">
+
+            <!-- Stepper Navigation -->
+            <div class="stepper-container">
+                <div class="step-node active" id="stepNode1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Aadhaar Auth</div>
+                </div>
+                <div class="step-node" id="stepNode2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Incident Details</div>
+                </div>
+                <div class="step-node" id="stepNode3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Digital Hops</div>
+                </div>
+                <div class="step-node" id="stepNode4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Evidence &amp; Review</div>
+                </div>
+                <div class="step-node" id="stepNode5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">AI Resolution</div>
+                </div>
+            </div>
+
+            <!-- Multi-Step Form Container -->
+            <div class="form-card" id="formCard">
+
+                <!-- STEP 1: Aadhaar Authentication -->
+                <section id="step1Content">
+                    <div class="form-header">
+                        <h2>Step 1: Citizen Identity Verification</h2>
+                        <p>Enter your 12-digit Aadhaar number to receive a secure One-Time Password (OTP) on your UIDAI registered mobile number.</p>
+                    </div>
+
+                    <div class="aadhaar-box">
+                        <label style="font-weight: 700; color: var(--gov-navy); font-size: 15px;">Aadhaar / UIDAI Number (12 Digits)</label>
+                        <div class="aadhaar-input-wrapper">
+                            <input type="text" id="aadhaarInput" class="form-input" placeholder="5428 9102 4319" maxlength="14" value="5428 9102 4319">
+                            <button type="button" class="btn btn-primary" id="btnSendOtp" style="white-space: nowrap;">Get OTP</button>
+                        </div>
+                        <div class="helper-text">Your Aadhaar information is encrypted under UIDAI guidelines and used solely for authenticating complaint validity.</div>
+
+                        <!-- OTP Section -->
+                        <div class="otp-section" id="otpSection">
+                            <h4 style="font-size: 14px; color: var(--gov-navy);">Enter 6-Digit OTP</h4>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;" id="otpPromptMsg">Dispatched to registered mobile</p>
+
+                            <div class="otp-inputs">
+                                <input type="text" maxlength="1" class="otp-digit" data-index="0" autofocus>
+                                <input type="text" maxlength="1" class="otp-digit" data-index="1">
+                                <input type="text" maxlength="1" class="otp-digit" data-index="2">
+                                <input type="text" maxlength="1" class="otp-digit" data-index="3">
+                                <input type="text" maxlength="1" class="otp-digit" data-index="4">
+                                <input type="text" maxlength="1" class="otp-digit" data-index="5">
+                            </div>
+
+                            <div id="demoOtpContainer" class="otp-demo-badge">
+                                Demo Sandbox OTP: <strong id="demoOtpCode">Loading...</strong>
+                            </div>
+
+                            <div style="margin-top: 14px;">
+                                <button type="button" class="btn btn-success" id="btnVerifyOtp" style="width: 100%;">Verify &amp; Proceed</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; font-size: 13px; color: #166534; display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 20px;">🔒</span>
+                        <div>
+                            <strong>Air-Gapped Gov-Secure Architecture:</strong> All complaints are stored in an encrypted shared database and synchronized directly with the Law Enforcement Tactical Command Center.
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 2: Incident Details -->
+                <section id="step2Content" style="display: none;">
+                    <div class="form-header">
+                        <h2>Step 2: Cyber Fraud Classification &amp; Complainant Details</h2>
+                        <p>Specify the victim information and categorization of the cyber financial offense.</p>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Complainant / Victim Full Name <span class="req">*</span></label>
+                            <input type="text" id="victimName" class="form-input" placeholder="e.g. Ramesh Chandra Verma" value="Ramesh Chandra Verma">
+                        </div>
+                        <div class="form-group">
+                            <label>Victim Mobile Number <span class="req">*</span></label>
+                            <input type="tel" id="victimPhone" class="form-input" placeholder="+91 98765 43210" value="+91 98765 43210">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Victim Compromised Account / Debit Card / UPI <span class="req">*</span></label>
+                            <input type="text" id="victimAccount" class="form-input" placeholder="e.g. ACC_0049210 or 5010049210" value="ACC_0049210">
+                        </div>
+                        <div class="form-group">
+                            <label>Cybercrime Category <span class="req">*</span></label>
+                            <select id="crimeTypeSelect" class="form-select">
+                                <option value="DIGITAL_ARREST" selected>Digital Arrest / Fake Law Enforcement Video Call</option>
+                                <option value="UPI_FRAUD">UPI QR Code / Phishing Collect Request</option>
+                                <option value="JOB_FRAUD">Work From Home / Telegram Task Part-Time Scam</option>
+                                <option value="INVESTMENT_FRAUD">Fake Trading App / High-Yield Stock Scam</option>
+                                <option value="ROMANCE_FRAUD">Social Media Honeytrap / Customs Parcel Scam</option>
+                                <option value="CRYPTO_FRAUD">Unauthorized Crypto Asset Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Victim Resident State <span class="req">*</span></label>
+                            <select id="victimStateSelect" class="form-select"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Victim Resident City <span class="req">*</span></label>
+                            <select id="victimCitySelect" class="form-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Total Stolen / Defrauded Amount (INR ₹) <span class="req">*</span></label>
+                            <input type="number" id="reportedAmount" class="form-input" placeholder="e.g. 150000" value="150000" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Scammer Phone Number / WhatsApp / Telegram</label>
+                            <input type="text" id="scammerContact" class="form-input" placeholder="+91 91234 56789 or @invest_expert" value="+91 88401 92831">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Back to Auth</button>
+                        <button type="button" class="btn btn-primary" onclick="validateStep2AndNext()">Proceed to Digital Hops →</button>
+                    </div>
+                </section>
+
+                <!-- STEP 3: Digital Hops & Mule Accounts -->
+                <section id="step3Content" style="display: none;">
+                    <div class="form-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h2>Step 3: Stolen Money Trail &amp; Mule Hops</h2>
+                            <p>Provide the sequential digital hops through which funds were moved. The PyTorch LSTM uses these hops to predict the final physical ATM cashout location.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="btnPrefillSampleHops" style="font-size: 12px; padding: 6px 12px;">
+                            ⚡ Autofill Realistic Case Trail
+                        </button>
+                    </div>
+
+                    <div class="hops-container" id="hopsList">
+                        <!-- Dynamic Hops injected here -->
+                    </div>
+
+                    <button type="button" class="btn-add-hop" id="btnAddHop">
+                        <span>➕ Add Next Transfer Hop in Money Trail</span>
+                    </button>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Back to Details</button>
+                        <button type="button" class="btn btn-primary" onclick="validateStep3AndNext()">Review &amp; Evidence →</button>
+                    </div>
+                </section>
+
+                <!-- STEP 4: Digital Evidence & Review -->
+                <section id="step4Content" style="display: none;">
+                    <div class="form-header">
+                        <h2>Step 4: Evidence Documentation &amp; Incident Narrative</h2>
+                        <p>Upload transaction receipts, chat transcripts, and provide a concise summary of the cyber incident.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Scammer's UPI ID / Beneficiary Account</label>
+                        <input type="text" id="scammerAccount" class="form-input" placeholder="e.g. transfer.desk89@axisbank or ACC_0081290" value="scam.invest@paytm">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Incident Summary / Narrative <span class="req">*</span></label>
+                        <textarea id="incidentDescription" class="form-textarea" rows="4" placeholder="Describe briefly how the scam initiated...">Received video call on WhatsApp from persons claiming to be Delhi Police Cyber Cell stating an arrest warrant was issued under PMLA. Under extreme duress, transferred funds across multiple bank accounts as instructed for 'police verification escrow'.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Payment Receipts / Screenshot Evidence</label>
+                        <div style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 24px; text-align: center; background: #f8fafc;">
+                            <span style="font-size: 32px;">📄</span>
+                            <div style="font-weight: 600; font-size: 13px; color: var(--gov-navy); margin-top: 8px;">Drag &amp; drop UTR slips or screenshots here</div>
+                            <div class="helper-text" style="margin-top: 4px;">Supports PNG, JPG, PDF up to 10MB</div>
+                            <input type="file" id="evidenceFile" style="display: none;" multiple>
+                            <button type="button" class="btn btn-secondary" style="margin-top: 12px; font-size: 12px;" onclick="document.getElementById('evidenceFile').click()">Browse Files</button>
+                            <div id="fileUploadStatus" style="font-size: 12px; color: #16a34a; font-weight: 600; margin-top: 8px; display: none;">1 file selected: txn_receipt_utr_54092.png</div>
+                        </div>
+                    </div>
+
+                    <div style="margin: 20px 0; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 14px; font-size: 13px; color: #92400e;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="legalConsentCheck" checked style="width: 18px; height: 18px;">
+                            <span>I declare under Section 182 of the Indian Penal Code that the facts stated in this cybercrime complaint are true and accurate.</span>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="goToStep(3)">← Back to Hops</button>
+                        <button type="button" class="btn btn-success" id="btnSubmitComplaint" style="font-size: 15px; padding: 12px 28px;">
+                            🚀 Trigger AI Defense &amp; Register Complaint
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 5: Official FIR & AI Resolution Card -->
+                <section id="step5Content" style="display: none;">
+                    <div class="receipt-card">
+                        <div class="receipt-icon">✓</div>
+                        <div class="receipt-badge">NCRP COMPLAINT REGISTERED</div>
+                        <h2 style="font-size: 24px; color: var(--gov-navy); font-weight: 800;">Official Incident Acknowledgment</h2>
+                        <p style="font-size: 14px; color: var(--text-muted); margin-top: 4px;">Your complaint has been ingested by the I4C AI Trajectory Prediction Core.</p>
+
+                        <div class="complaint-id-box">
+                            <div style="font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 4px;">OFFICIAL NCRP COMPLAINT ID</div>
+                            <span id="resComplaintId">NCRP-2026-XXXXXX</span>
+                            <div style="font-size: 12px; color: #64748b; font-weight: 400; margin-top: 4px;" id="resTimestamp">--</div>
+                        </div>
+
+                        <!-- AI Prediction Spotlight -->
+                        <div class="prediction-preview-box">
+                            <h4>
+                                <span>🎯</span> PyTorch AI ATM Cashout Forecast
+                                <span id="resThreatBadge" style="margin-left: auto; background: #ef4444; color: white; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">CRITICAL</span>
+                            </h4>
+                            <p style="font-size: 13px; color: #94a3b8;">
+                                Based on your digital hops, the neural network calculated cashout target coordinates: 
+                                <strong style="color: #38bdf8;" id="resCoords">(--, --)</strong> in <strong style="color: #38bdf8;" id="resTargetCity">--</strong>.
+                            </p>
+
+                            <div id="resAtmCardsList" style="margin-top: 14px;">
+                                <!-- Injected predicted ATMs -->
+                            </div>
+                        </div>
+
+                        <div class="guidance-box">
+                            <h5>⚡ Mandatory Golden Hour Directives:</h5>
+                            <ul id="resGuidanceList">
+                                <li>Dial <strong>1930</strong> immediately to bind your NCRP ID with the Citizen Financial Cyber Fraud Reporting System.</li>
+                                <li>Automated lien request has been queued to bank nodes for the beneficiary account.</li>
+                                <li>Law Enforcement Agency intercept unit notification has been triggered.</li>
+                            </ul>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 16px; margin-top: 28px;">
+                            <button type="button" class="btn btn-secondary" onclick="window.print()">
+                                🖨️ Print / Download Acknowledgment PDF
+                            </button>
+                            <a href="http://127.0.0.1:9000/" target="_blank" rel="noopener" class="btn btn-primary">
+                                🛡️ View in LEA Tactical Terminal (Port 9000) →
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 2: CYBER AWARENESS & LEARNING HUB                   -->
+        <!-- ======================================================== -->
+        <div id="viewLearnContainer" style="display: none;">
+            
+            <div class="learning-hero">
+                <h2>📚 Citizen Cyber Safety &amp; Scam Encyclopedia</h2>
+                <p>Equip yourself with comprehensive knowledge about the latest cyber financial modus operandi, warning signs, legal liabilities, and emergency Golden Hour defense protocols.</p>
+            </div>
+
+            <!-- Categories & Search Filters -->
+            <div class="learning-filters">
+                <div class="category-pills">
+                    <button type="button" class="cat-pill active" onclick="filterArticles('ALL')">All Articles</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('TRENDING FRAUDS')">Digital Arrest &amp; Trending</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('BANKING SAFETY')">UPI &amp; Banking Safety</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('EMPLOYMENT FRAUDS')">Job &amp; Task Scams</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('INVESTMENT FRAUD')">Stock &amp; Crypto</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('LEGAL AWARENESS')">Mule Accounts &amp; Law</button>
+                    <button type="button" class="cat-pill" onclick="filterArticles('EMERGENCY GUIDE')">1930 Golden Hour</button>
+                </div>
+
+                <div class="search-articles-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchArticlesInput" placeholder="Search scams, red flags..." oninput="handleSearchArticles()">
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div class="articles-grid" id="articlesGrid">
+                <!-- Articles loaded dynamically from backend API -->
+            </div>
+
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 3: SCAM DIAGNOSTIC CHECKER ('Is This a Scam?')       -->
+        <!-- ======================================================== -->
+        <div id="viewDiagnosticContainer" style="display: none;">
+            <div class="diagnostic-container">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <span style="font-size: 40px;">🔍</span>
+                    <h2 style="font-size: 24px; color: var(--gov-navy); font-weight: 800; margin-top: 8px;">Interactive Scam Diagnostic Tool</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Answer 3 quick questions about the situation you are facing to instantly assess cyber fraud risk.</p>
+                </div>
+
+                <div id="diagnosticWizard">
+                    <div style="margin-bottom: 24px;">
+                        <label style="font-weight: 700; color: var(--gov-navy); font-size: 14px; display: block; margin-bottom: 10px;">
+                            1. What did the caller / message claim?
+                        </label>
+                        <div class="diagnostic-option" onclick="selectDiagOption(1, 'arrest', this)">
+                            <span>🚨</span>
+                            <div>
+                                <strong>Law Enforcement / Customs Threat:</strong> Claimed an illegal parcel was found with your Aadhaar, or that you are under 'Digital Arrest' by CBI/Police.
+                            </div>
+                        </div>
+                        <div class="diagnostic-option" onclick="selectDiagOption(1, 'job', this)">
+                            <span>💼</span>
+                            <div>
+                                <strong>High-Paying Work-From-Home Task:</strong> Offered ₹3,000–₹8,000 daily for liking YouTube videos, rating hotels, or prepaid merchant tasks.
+                            </div>
+                        </div>
+                        <div class="diagnostic-option" onclick="selectDiagOption(1, 'qr', this)">
+                            <span>📲</span>
+                            <div>
+                                <strong>Sent a QR Code / Link to 'Receive' Money:</strong> Insisted you scan a QR code or enter your UPI PIN to claim a refund, prize, or marketplace payment.
+                            </div>
+                        </div>
+                        <div class="diagnostic-option" onclick="selectDiagOption(1, 'stock', this)">
+                            <span>📈</span>
+                            <div>
+                                <strong>Guaranteed 500% Stock Trading App:</strong> Invited you to a WhatsApp VIP group with exclusive institutional IPO allocations and secret insider tips.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label style="font-weight: 700; color: var(--gov-navy); font-size: 14px; display: block; margin-bottom: 10px;">
+                            2. What are they demanding you do right now?
+                        </label>
+                        <div class="diagnostic-option" onclick="selectDiagOption(2, 'transfer', this)">
+                            <span>💸</span>
+                            <div>Transfer funds immediately into a 'verification / escrow / tax / deposit' account to unlock money or avoid arrest.</div>
+                        </div>
+                        <div class="diagnostic-option" onclick="selectDiagOption(2, 'app', this)">
+                            <span>📱</span>
+                            <div>Download AnyDesk, TeamViewer, or install a direct APK link from WhatsApp rather than the official Play Store.</div>
+                        </div>
+                        <div class="diagnostic-option" onclick="selectDiagOption(2, 'secrecy', this)">
+                            <span>🤫</span>
+                            <div>Stay on video call continuously and strictly forbid you from telling your family, friends, or local police.</div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 15px;" onclick="calculateDiagnosticResult()">
+                        ⚡ Analyze Scam Probability
+                    </button>
+
+                    <div id="diagnosticResult" class="diagnostic-result-box"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Full Article Reader Modal -->
+    <div class="article-modal-overlay" id="articleModal" style="display: none;">
+        <div class="article-modal-content">
+            <button type="button" class="article-modal-close" onclick="closeArticleModal()">✕</button>
+            
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+                <span class="article-badge" id="modalBadge">CRITICAL ALERT</span>
+                <span class="article-read-time" id="modalReadTime">4 min read</span>
+                <span style="color: var(--text-muted); font-size: 12px;">•</span>
+                <span class="article-cat-tag" id="modalCategory">TRENDING FRAUDS</span>
+            </div>
+
+            <h2 id="modalTitle" style="font-size: 24px; color: var(--gov-navy); font-weight: 800; line-height: 1.3;">Article Title</h2>
+
+            <div class="article-modal-body" id="modalBody">
+                <!-- Injected Markdown Content -->
+            </div>
+
+            <!-- Red Flags Card -->
+            <div class="red-flags-card">
+                <h4>🚩 Critical Red Flags to Watch For:</h4>
+                <ul id="modalRedFlags"></ul>
+            </div>
+
+            <!-- Prevention Tips Card -->
+            <div class="prevention-card">
+                <h4>🛡️ Recommended Prevention &amp; Protective Action:</h4>
+                <ul id="modalPrevention"></ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+                <button type="button" class="btn btn-primary" onclick="closeArticleModalAndReport()">
+                    🚨 Need to Report This Scam? Open Complaint Wizard →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="footer-content">
+            <div>
+                <strong>National Cybercrime Reporting Portal &amp; Awareness Hub</strong> — Ministry of Home Affairs, Government of India.
+                <div style="margin-top: 4px; font-size: 12px;">Secured under Information Technology Act, 2000. All public submissions are encrypted.</div>
+            </div>
+            <div class="footer-links">
+                <a href="http://127.0.0.1:9000/" target="_blank" rel="noopener">Law Enforcement Access (Port 9000)</a>
+                <a href="/admin" style="color: #f87171;">Admin Trap</a>
+                <a href="https://cybercrime.gov.in" target="_blank" rel="noopener">Official Portal</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/citizen/citizen.js"></script>
+</body>
+</html>
